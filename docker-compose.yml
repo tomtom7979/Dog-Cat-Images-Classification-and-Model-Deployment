@@ -1,0 +1,26 @@
+# https://docs.docker.com/compose/gpu-support/
+# docker-compose up -d
+# docker-compose ps
+# docker-compose down
+
+#docker-compose.yml
+version: '3.3'
+services:
+  jupyter:    
+    image: tensorflow/tensorflow:2.2.3-gpu-py3-jupyter
+    ports:
+      - "8889:8888"
+    volumes:
+      - "./:/tf/notebooks"      
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]  
+
+
